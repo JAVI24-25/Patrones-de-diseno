@@ -63,7 +63,7 @@ class AdministradorHotel {
         habitaciones = new HashMap<>();
         reservas = new ArrayList<>();
         contadorReservas = 0;
-        System.out.println("🔧 AdministradorHotel creado");
+        System.out.println(" AdministradorHotel creado");
     }
     
     public static AdministradorHotel obtenerInstancia() {
@@ -75,7 +75,7 @@ class AdministradorHotel {
     
     public void suscribir(ObservadorHotel observador) {
         observadores.add(observador);
-        System.out.println(" " + observador.obtenerNombre() + " se suscribió");
+        System.out.println(" " + observador.obtenerNombre() + " se suscribio");
     }
     
     private void notificarATodos(String mensaje) {
@@ -89,7 +89,7 @@ class AdministradorHotel {
     
     public void agregarHabitacion(Habitacion habitacion) {
         habitaciones.put(habitacion.obtenerNumero(), habitacion);
-        Registrador.obtenerInstancia().registrar("Habitación " + habitacion.obtenerNumero() + " agregada");
+        Registrador.obtenerInstancia().registrar("Habitacion " + habitacion.obtenerNumero() + " agregada");
     }
     
     public void registrarReserva(Reserva reserva) {
@@ -98,7 +98,7 @@ class AdministradorHotel {
         Registrador.obtenerInstancia().registrar("Reserva creada para: " + reserva.obtenerHuesped().obtenerNombre());
         System.out.println("\n Reserva registrada:");
         System.out.println("   " + reserva.obtenerDescripcion());
-        System.out.println("    Costo total: $" + reserva.obtenerCostoTotal());
+        System.out.println("    Costo total: Bs" + reserva.obtenerCostoTotal());
     }
     
     public void cambiarEstadoReserva(String idReserva, String nuevoEstado) {
@@ -106,8 +106,8 @@ class AdministradorHotel {
             if (reserva.obtenerId().equals(idReserva)) {
                 String estadoAnterior = reserva.obtenerEstado();
                 reserva.establecerEstado(nuevoEstado);
-                Registrador.obtenerInstancia().registrar("Reserva " + idReserva + " cambió a " + nuevoEstado);
-                notificarATodos("Su reserva " + idReserva + " cambió: " + estadoAnterior + " → " + nuevoEstado);
+                Registrador.obtenerInstancia().registrar("Reserva " + idReserva + " cambio a " + nuevoEstado);
+                notificarATodos("Su reserva " + idReserva + " cambio: " + estadoAnterior + " → " + nuevoEstado);
                 break;
             }
         }
@@ -235,7 +235,7 @@ class SalidaTardiaDecorador extends DecoradorReserva {
     }
     
     public String obtenerDescripcion() {
-        return reservaEnvuelta.obtenerDescripcion() + " + Salida Tardía (hasta 2pm)";
+        return reservaEnvuelta.obtenerDescripcion() + " + Salida Tardia (hasta 2pm)";
     }
     
     public double obtenerCostoTotal() {
@@ -257,46 +257,46 @@ public class SistemaHotel {
         AdministradorHotel hotel = AdministradorHotel.obtenerInstancia();
         
         System.out.println("\n--- CREANDO HABITACIONES ---");
-        Habitacion habitacion1 = new Habitacion("101", "Estándar", 80.0);
+        Habitacion habitacion1 = new Habitacion("101", "Estandar", 80.0);
         Habitacion habitacion2 = new Habitacion("202", "Deluxe", 120.0);
         Habitacion habitacion3 = new Habitacion("303", "Suite", 200.0);
         hotel.agregarHabitacion(habitacion1);
         hotel.agregarHabitacion(habitacion2);
         hotel.agregarHabitacion(habitacion3);
         
-        System.out.println("\n--- DEMOSTRACIÓN DEL PATRÓN OBSERVADOR ---");
-        Huesped ana = new Huesped("Ana García", "ana@email.com");
-        Huesped carlos = new Huesped("Carlos López", "carlos@email.com");
-        Huesped maria = new Huesped("María Fernández", "maria@email.com");
+        System.out.println("\n--- DEMOSTRACION DEL PATRON OBSERVADOR ---");
+        Huesped ana = new Huesped("Ana Garcia", "ana@email.com");
+        Huesped carlos = new Huesped("Carlos Lopez", "carlos@email.com");
+        Huesped maria = new Huesped("Maria Fernandez", "maria@email.com");
         hotel.suscribir(ana);
         hotel.suscribir(carlos);
         hotel.suscribir(maria);
         
-        System.out.println("\n--- DEMOSTRACIÓN DEL PATRÓN DECORADOR ---");
+        System.out.println("\n--- DEMOSTRACION DEL PATRON DECORADOR ---");
         
         Reserva reservaBase = new ReservaBasica(ana, habitacion1, 3);
         System.out.println("\nReserva base:");
-        System.out.println("   Descripción: " + reservaBase.obtenerDescripcion());
-        System.out.println("   Costo: $" + reservaBase.obtenerCostoTotal());
+        System.out.println("   Descripcion: " + reservaBase.obtenerDescripcion());
+        System.out.println("   Costo: Bs" + reservaBase.obtenerCostoTotal());
         
         Reserva conDesayuno = new DesayunoDecorador(reservaBase);
         System.out.println("\n+ Con Desayuno:");
-        System.out.println("   Descripción: " + conDesayuno.obtenerDescripcion());
-        System.out.println("   Costo: $" + conDesayuno.obtenerCostoTotal());
+        System.out.println("   Descripcion: " + conDesayuno.obtenerDescripcion());
+        System.out.println("   Costo: Bs" + conDesayuno.obtenerCostoTotal());
         
         Reserva conDesayunoYSpa = new SpaDecorador(conDesayuno);
         System.out.println("\n+ Con Desayuno + Spa:");
-        System.out.println("   Descripción: " + conDesayunoYSpa.obtenerDescripcion());
-        System.out.println("   Costo: $" + conDesayunoYSpa.obtenerCostoTotal());
+        System.out.println("   Descripcion: " + conDesayunoYSpa.obtenerDescripcion());
+        System.out.println("   Costo: Bs" + conDesayunoYSpa.obtenerCostoTotal());
         
         Reserva conTodosLosExtras = new SalidaTardiaDecorador(conDesayunoYSpa);
-        System.out.println("\n+ Con TODOS los extras (Desayuno + Spa + Salida Tardía):");
-        System.out.println("   Descripción: " + conTodosLosExtras.obtenerDescripcion());
-        System.out.println("   Costo TOTAL: $" + conTodosLosExtras.obtenerCostoTotal());
+        System.out.println("\n+ Con TODOS los extras (Desayuno + Spa + Salida Tardia):");
+        System.out.println("   Descripcion: " + conTodosLosExtras.obtenerDescripcion());
+        System.out.println("   Costo TOTAL: Bs" + conTodosLosExtras.obtenerCostoTotal());
         
         hotel.registrarReserva(conTodosLosExtras);
         
-        System.out.println("\n--- CAMBIO DE ESTADO (OBSERVADOR EN ACCIÓN) ---");
+        System.out.println("\n--- CAMBIO DE ESTADO (OBSERVADOR EN ACCION) ---");
         hotel.cambiarEstadoReserva("RES-1", "CONFIRMADA");
         hotel.cambiarEstadoReserva("RES-1", "PAGADA");
         hotel.cambiarEstadoReserva("RES-1", "ENTREGADA");
@@ -306,7 +306,7 @@ public class SistemaHotel {
         Reserva otraConExtras = new SpaDecorador(new DesayunoDecorador(otraReserva));
         hotel.registrarReserva(otraConExtras);
         
-        System.out.println("\n--- VERIFICACIÓN DEL PATRÓN SINGLETON ---");
+        System.out.println("\n--- VERIFICACION DEL PATRON SINGLETON ---");
         AdministradorHotel otroHotel = AdministradorHotel.obtenerInstancia();
         System.out.println("¿Misma instancia de AdministradorHotel? " + (hotel == otroHotel));
         
